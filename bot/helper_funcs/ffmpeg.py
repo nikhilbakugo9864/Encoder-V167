@@ -23,17 +23,12 @@ from bot import (
     FINISHED_PROGRESS_STR,
     UN_FINISHED_PROGRESS_STR,
     DOWNLOAD_LOCATION,
-    crf,
-    watermark,
     pid_list,
-    resolution,
-    bit,
-    FFMPEG,
-    preset
+    FFMPEG
 )
 
 async def convert_video(video_file, output_directory, total_time, bot, message, chan_msg):
-    # https://stackoverflow.com/a/13891070/4723940
+    # https://stackoverflow.com/a/13891070/4723940 time utc                                                                                                                                 
     kk = video_file.split("/")[-1]
     aa = kk.split(".")[-1]
     out_put_file_name = kk.replace(f".{aa}", " [@FIERCENETWORK].mkv")
@@ -45,11 +40,11 @@ async def convert_video(video_file, output_directory, total_time, bot, message, 
     ##"-metadata", "title=@SenpaiAF", "-vf", "drawtext=fontfile=njnaruto.ttf:fontsize=20:fontcolor=black:x=15:y=15:text=" "Dark Encodes",
      ## -vf eq=gamma=1.4:saturation=1.4
      ## lol 😂
-    crf.append("30")
-    resolution.append("854x480")
-    bit.append("yuv420p")
-    preset.append("")
-    watermark.append("")
+    #crf.append("30")
+    #resolution.append("854x480")
+    #bit.append("yuv420p")
+    #preset.append("")
+    #watermark.append("")
     file_genertor_command = FFMPEG.format(progress, video_file, out_put_file_name)
  #For Ffmpeg Use
     COMPRESSION_START_TIME = time.time()
@@ -109,8 +104,8 @@ async def convert_video(video_file, output_directory, total_time, bot, message, 
             ''.join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 10))]),
             ''.join([UN_FINISHED_PROGRESS_STR for i in range(10 - math.floor(percentage / 10))])
             )
-        stats = f'🗳 <b>ENCODING IN PROGRESS</b>\n\n' \
-                f'⌚ <b>TIME LEFT:</b> {ETA}\n\n' \
+        stats = f'🗳 <b>Encoding The Video</b>\n\n' \
+                f'⌚ <b>Estimated Time:</b> {ETA}\n\n' \
                 f'{progress_str}\n'
         try:
           await message.edit_text(
@@ -134,7 +129,7 @@ async def convert_video(video_file, output_directory, total_time, bot, message, 
     r = stderr.decode()
     try:
         if er:
-           await message.edit_text(str(er) + "\n\n**ERROR** Contact @SenpaiAF")
+           await message.edit_text(str(er) + "\n\n**ERROR**")
            os.remove(videofile)
            os.remove(out_put_file_name)
            return None
