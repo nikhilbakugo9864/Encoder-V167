@@ -25,9 +25,9 @@ compress - Manual Compressing
 
 eval - set crf ex /eval 27
 
-480p - 480p Encoding Mode
+480p - 480p Encoding Mode removed
 
-1080p - 1080p Encoding Mode
+1080p - 1080p Encoding Mode removed in improved2
 
 log - upload log file
 
