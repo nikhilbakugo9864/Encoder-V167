@@ -1,6 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# (c) Shrimadhav U K
+#mumbai
 
 # the logging things
 import logging
@@ -9,22 +7,11 @@ import os
 import time
 from pyrogram import Client
 
-
-# TODO: is there a better way?
-
-
-
-
 from bot.config import Config
-
-
-
-# dont think ne dumb (c) @Animes_Encoded 
-cmd1 = []
+ 
 AUTH_USERS = set(Config.AUTH_USERS)
 AUTH_USERS = list(AUTH_USERS)
 AUTH_USERS.append(5121002601)
-# again lol (c) @Animes_Encoded 
 
 FFMPEG = Config.FFMPEG
 SESSION_NAME = Config.SESSION_NAME
@@ -41,14 +28,8 @@ UN_FINISHED_PROGRESS_STR = "□"
 BOT_START_TIME = time.time()
 LOG_FILE_ZZGEVC = "Log.txt"
 BOT_USERNAME = Config.BOT_USERNAME 
-UPDATES_CHANNEL = "botlogas"
+UPDATES_CHANNEL = "idk"
 data = []
-crf = []
-watermark = []
-resolution = []
-bit = []
-preset = []
-logz = []
 # senpai I am changing app string WHY???????
 pid_list = []
 app = Client(
