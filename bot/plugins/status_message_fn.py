@@ -13,14 +13,8 @@ from bot import (
     LOG_FILE_ZZGEVC,
     MAX_MESSAGE_LENGTH,
     AUTH_USERS,
-    crf,
-    logz,
-    watermark,
     data,
-    resolution,
     pid_list,
-    bit,
-    preset
 )
 
 
@@ -43,7 +37,7 @@ async def exec_message_f(client, message):
 
         reply_to_id = message.message_id
         if message.reply_to_message:
-            reply_to_id = message.reply_to_message.message_id
+            reply_to_id = message.reply_to_message.message.id
 
         start_time = time.time() + PROCESS_RUN_TIME
         process = await asyncio.create_subprocess_shell(
@@ -84,9 +78,9 @@ async def eval_message_f(client, message):
         status_message = await message.reply_text("Processing ...")
         cmd = message.text.split(" ", maxsplit=1)[1]
 
-        reply_to_id = message.message_id
+        reply_to_id = message.message.id
         if message.reply_to_message:
-            reply_to_id = message.reply_to_message.message_id
+            reply_to_id = message.reply_to_message.message.id
 
         old_stderr = sys.stderr
         old_stdout = sys.stdout
