@@ -16,7 +16,6 @@ from bot import (
   SESSION_NAME,
   data,
   app,
-  logz,  
   LOGZ  
 )
 
@@ -44,7 +43,7 @@ from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant, Usern
 #  delete_downloads
 #)
 os.system("wget https://te.legra.ph/file/ed0102d22b0b94cb89cda.jpg -O thumb.jpg")
-
+ab = "thumb.jpg"
 w = 1280
 h = 1720
 logz.append('-1001752956767')
@@ -100,7 +99,7 @@ async def incoming_start_message_f(bot, update):
                 ]
             ]
         ),
-        reply_to_message_id=update.message_id,
+        reply_to_message_id=update.message.id,
     )
     
 async def incoming_compress_message_f(update):
@@ -200,7 +199,7 @@ async def incoming_compress_message_f(update):
   sent_message = await bot.send_message(
   chat_id=update.chat.id,
   text=Localisation.DOWNLOAD_START,
-  reply_to_message_id=update.message_id
+  reply_to_message_id=update.message.id
               )
   chat_id = LOG_CHANNEL
   utc_now = datetime.datetime.utcnow()
@@ -216,7 +215,7 @@ async def incoming_compress_message_f(update):
       with open(status, 'w') as f:
         statusMsg = {
           'running': True,
-          'message': sent_message.message_id
+          'message': sent_message.message.id
         }
 
         json.dump(statusMsg, f, indent=2)
