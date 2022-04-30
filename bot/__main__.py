@@ -1,4 +1,3 @@
-from bot import cmd1
 from datetime import datetime as dt
 import os
 from bot import (
@@ -10,14 +9,9 @@ from bot import (
     TG_BOT_TOKEN,
     BOT_USERNAME,
     SESSION_NAME,
-    
+    FFMPEG,
     data,
     app,
-    crf,
-    watermark,
-    resolution,
-    bit,
-    preset
 )
 from bot.helper_funcs.utils import add_task, on_task_complete
 from pyrogram import Client, filters
@@ -38,7 +32,7 @@ from bot.plugins.status_message_fn import (
 
 from bot.commands import Command
 from bot.plugins.call_back_button_handler import button
-sudo_users = "1553219399" 
+sudo_users = "5121002601" #ye trailer h 
 
 uptime = dt.now()
 
@@ -61,10 +55,7 @@ if __name__ == "__main__" :
     # create download directory, if not exist
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
-    #
-    
-    
-    #
+
     app.set_parse_mode("html")
     #
     # STATUS ADMIN Command
@@ -85,23 +76,8 @@ if __name__ == "__main__" :
         data.append(message.reply_to_message)
         if len(data) == 1:
          await query.delete()   
-         await add_task(message.reply_to_message)     
-            
-    @app.on_message(filters.incoming & filters.command(["480p", f"480p@{BOT_USERNAME}"]))
-    async def help_message(app, message):
-        if message.chat.id not in AUTH_USERS:
-            return await message.reply_text("You are not authorised to use this bot")
-        await message.reply_text("480p Mode has been set", quote=True)
-        cmd1.insert(0, "-pix_fmt yuv420p -preset medium -s 854x480 -crf 28 -profile:a  aac_he_v2 -c:a libopus -ac 1 -vbr 2 -ab 60k -c:s copy -y")
+         await add_task(message.reply_to_message)
                  
-            
-    @app.on_message(filters.incoming & filters.command(["1080p", f"1080p@{BOT_USERNAME}"]))
-    async def help_message(app, message):
-        if message.chat.id not in AUTH_USERS:
-            return await message.reply_text("You are not authorised to use this bot")
-        await message.reply_text("1080p Mode has been set", quote=True)
-        cmd1.insert(0, "-pix_fmt yuv420p10 -preset veryfast -s 1920x1080 -crf 25 -c:a libopus -ab 128k -c:s copy -y")
-                         
     @app.on_message(filters.incoming & filters.command(["restart", f"restart@{BOT_USERNAME}"]))
     async def restarter(app, message):
       await message.reply_text("Rebooting ...")
@@ -112,7 +88,6 @@ if __name__ == "__main__" :
       data.clear()
       await message.reply_text("Successfully cleared Queue ...")
          
-        
     @app.on_message(filters.incoming & (filters.video | filters.document))
     async def help_message(app, message):
         if message.chat.id not in AUTH_USERS:
@@ -149,7 +124,7 @@ if __name__ == "__main__" :
    
     @app.on_message(filters.incoming & filters.command(["help", f"help@{BOT_USERNAME}"]))
     async def help_message(app, message):
-        await message.reply_text("Hi, I am <b>Video Encoder bot</b>\n\n➥ Send me your telegram files\n➥ I will encode them one by one as I have <b>queue feature</b>\n➥ Just send me the jpg/pic and it will be set as your custom thumbnail \n➥ For ffmpeg lovers - u can change crf by /eval crf.insert(0, 'crf value')\n➥ Join @FIERCENETWORK for animes \n\n🏷<b>Maintained By: @NIRUSAKI</b>", quote=True)
+        await message.reply_text("Hi, I Am <b>ANIXCODER</b>\n\n➥ Send Me Telegram Files\n➥  <b>It is Having Queue Feature Created And Idea By Nirusaki And Viperandan</b>\n➥ Just send me the jpg/pic and it will be set as your custom thumbnail \n➥ For ffmpeg lovers - u can change crf by /eval crf.insert(0, 'crf value')\n➥ Join @ANIXPO for Animes \n\n🏷<b>Maintained By: @NIRUSAKI</b>", quote=True)
   
     @app.on_message(filters.incoming & filters.command(["log", f"log@{BOT_USERNAME}"]))
     async def help_message(app, message):
@@ -169,5 +144,5 @@ if __name__ == "__main__" :
     )
     app.add_handler(call_back_button_handler)
 
-    # run the APPlication
+    # run the Application
     app.run()
