@@ -173,7 +173,7 @@ async def upload_dir(client, message):
                 caption=cmd1,
                 reply_to_message_id=replyid,
         )
-    await xhamster.delete_messages
+    await xhamster.delete()
   else:
      await message.reply_text(f"Directory Not Found ```{cmd1}```", parse_mode="markdown")
         
@@ -196,10 +196,10 @@ async def sample_gen(app, message):
           vid,
           d_start
         )
-     await vid.edit("Downloading Finished Starting To Generate Sample")
+     v = await message.reply_text("Downloading Finished Starting To Generate Sample")
      video_file='/app/samplevideo.mkv'
      output_file='/app/sample_video.mkv'
-     await vid.edit("Generating Sample...This May Take Few Moments")
+     await v.edit("Generating Sample...This May Take Few Moments")
      file_gen_cmd = f'ffmpeg -ss 00:30 -i "{video_file}" -map 0:v -map 0:a -c:v copy -c:a copy -t 30 "{output_file}" -y'
      output = await run_subprocess(file_gen_cmd)
      duration, bitrate = await media_info(output_file)
@@ -207,6 +207,7 @@ async def sample_gen(app, message):
      thumb_cmd = f'ffmpeg -i {output_file} -ss 00:15 -frames:v 1 "{output_thumb}" -y'
      output = await run_subprocess(thumb_cmd)
      width, height = get_width_height(output_file)
+     v.delete()
   else:
      await message.reply_text('NO FILE DETECTED')
   if os.path.exists(output_file):
@@ -231,7 +232,6 @@ async def sample_gen(app, message):
           u_start
         ) 
      )
-     await vid.delete()
      os.remove(video_file)
      os.remove(output_file)
      os.remove(output_thumb)
