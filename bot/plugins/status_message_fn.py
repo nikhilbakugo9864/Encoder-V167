@@ -22,6 +22,7 @@ from bot.commands import Command
 from bot.localisation import Localisation
 from bot.helper_funcs.display_progress import (
     TimeFormatter,
+    progress_for_pyrogram,
     humanbytes
 )
 from bot.helper_funcs.ffmpeg import (
@@ -29,6 +30,7 @@ from bot.helper_funcs.ffmpeg import (
   take_screen_shot,
   get_width_height
 )
+
 
 async def exec_message_f(client, message):
   if message.from_user.id in AUTH_USERS:
@@ -177,14 +179,14 @@ async def upload_dir(client, message):
         
 async def sample_gen(app, message):
   if message.reply_to_message:
-     msi = message.reply_to_message
-     vid = await bot.send_message(
-            chat_id=update.chat.id,
+     msi = message.reply_to_message.message_id
+     vid = await app.send_message(
+            chat_id=message.chat.id,
             text=Localisation.DOWNLOAD_START,
-            reply_to_message_id=message.reply_to_message.message_id
+            reply_to_message_id=msi
      )
      d_start = time.time()   
-     video = await bot.download_media(
+     video = await app.download_media(
         message=msi,
         file_name='/app/samplevideo.mkv', 
         progress=progress_for_pyrogram,
@@ -198,8 +200,8 @@ async def sample_gen(app, message):
      video_file='/app/samplevideo.mkv'
      output_file='/app/sample_video.mkv'
      await vid.edit("Generating Sample...This May Take Few Moments")
-     file_gen_cmd = f'ffmpeg -ss 00:30 -i "{video_file}" -map 0 -c:v copy -c:a copy -t 30 "{output_file}" -y'
-     output = await run_subprocess(file_gen_cmd)   
+     file_gen_cmd = f'ffmpeg -ss 00:30 -i "{video_file}" -map 0:v -map 0:a -c:v copy -c:a copy -t 30 "{output_file}" -y'
+     output = await run_subprocess(file_gen_cmd)
      duration, bitrate = await media_info(output_file)
      output_thumb = '/app/thumb_output.jpeg'
      thumb_cmd = f'ffmpeg -i {output_file} -ss 00:15 -frames:v 1 "{output_thumb}" -y'
