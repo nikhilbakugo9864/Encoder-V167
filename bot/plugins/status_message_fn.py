@@ -177,16 +177,27 @@ async def upload_dir(client, message):
         
 async def sample_gen(app, message):
   if message.reply_to_message:
-     vid = message.reply_to_message.message_id
-     dp = await message.reply_to_message.reply_text("Downloading The Video", parse_mode="markdown")
-     video = await app.download_media(
-        message=message.reply_to_message,
-        file_name='/app/samplevideo.mkv',
+     msi = message.reply_to_message
+     vid = await bot.send_message(
+            chat_id=update.chat.id,
+            text=Localisation.DOWNLOAD_START,
+            reply_to_message_id=message.reply_to_message.message_id
+     )
+     d_start = time.time()   
+     video = await bot.download_media(
+        message=msi,
+        file_name='/app/samplevideo.mkv', 
+        progress=progress_for_pyrogram,
+        progress_args=(
+          app,
+          Localisation.DOWNLOAD_START,
+          vid,
+          d_start
         )
-     await dp.edit("Downloading Finished Starting To Generate Sample")
+     await vid.edit("Downloading Finished Starting To Generate Sample")
      video_file='/app/samplevideo.mkv'
      output_file='/app/sample_video.mkv'
-     await dp.edit("Generating Sample...This May Take Few Moments")
+     await vid.edit("Generating Sample...This May Take Few Moments")
      file_gen_cmd = f'ffmpeg -ss 00:30 -i "{video_file}" -map 0 -c:v copy -c:a copy -t 30 "{output_file}" -y'
      output = await run_subprocess(file_gen_cmd)   
      duration, bitrate = await media_info(output_file)
@@ -197,7 +208,7 @@ async def sample_gen(app, message):
   else:
      await message.reply_text('NO FILE DETECTED')
   if os.path.exists(output_file):
-     await dp.edit('Uploading The Video')
+     u_start = time.time()
      chat_id = message.chat.id
      upload = await app.send_video(
         chat_id=message.chat.id,
@@ -209,9 +220,16 @@ async def sample_gen(app, message):
         height=height,
         file_name=output_file,
         thumb=output_thumb,
-        reply_to_message_id=vid
+        reply_to_message_id=message.reply_to_message.message_id
+        progress=progress_for_pyrogram,
+        progress_args=(
+          app,
+          Localisation.UPLOAD_START,
+          vid,
+          u_start
+        ) 
      )
-     await dp.delete()
+     await vid.delete()
      os.remove(video_file)
      os.remove(output_file)
      os.remove(output_thumb)
