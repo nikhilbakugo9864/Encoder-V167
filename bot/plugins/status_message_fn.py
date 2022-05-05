@@ -195,7 +195,7 @@ async def sample_gen(app, message):
           Localisation.DOWNLOAD_START,
           vid,
           d_start
-        )
+         )
      v = await message.reply_text("Downloading Finished Starting To Generate Sample")
      video_file='/app/samplevideo.mkv'
      output_file='/app/sample_video.mkv'
@@ -209,7 +209,7 @@ async def sample_gen(app, message):
      width, height = get_width_height(output_file)
      v.delete()
   else:
-     await message.reply_text('NO FILE DETECTED')
+    await message.reply_text('NO FILE DETECTED')
   if os.path.exists(output_file):
      u_start = time.time()
      chat_id = message.chat.id
